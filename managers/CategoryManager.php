@@ -19,7 +19,37 @@ class CategoryManager extends AbstractManager {
        }
         return $list;  
     }  
+        public function createCategory(string $categortySlug) : Category
+    {
+        $query = $this->db->prepare('INSERT INTO category VALUES (:name, :slug)');
+        $parameters = [
+        'name' => $category->getName(),
+        'slug' => $category->getSlug(),
+        ];
+        $query->execute($parameters);
+        
+        return $this->db->lastInsertId();
       
+    }
+    public function editCategory(string $categorySlug) : Category
+    {
+        $query = $this->db->prepare('UPDATE product SET name= :name, slug= :slug, description= :description, price= :price WHERE id= :id');
+        $parameters = [
+        'name' => $category->getName(),
+        'slug' => $category->getSlug(),
+        ];
+        $query->execute($parameters);
+        
+        return $parameters;// manque le return
+    }
+    private function deleteCategory(string $categorySlug) : void
+    {
+        $query = $this->db->prepare('DELETE FROM category WHERE name = :name');
+        $parameters = [
+            'category_name' => $categoryName
+            ];
+        $query->execute($parameters);    
+    }  
     public function getCategoryBySlug(string $slug) : Category  
     {  
         $query = $this->db->prepare('SELECT * FROM categories WHERE categories.slug=:slug '); 

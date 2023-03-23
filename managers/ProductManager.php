@@ -31,7 +31,43 @@ class ProductManager extends AbstractManager {
         $product = new Product($productParams['name'], $productParams['slug'], $productParams['description'], $productParams['price']);  
     
         return $product;  
-    }  
+    }
+    public function createProduct(string $productSlug) : Product
+    {
+        $query = $this->db->prepare('INSERT INTO product VALUES (:name, :slug, :description, :price)');
+        $parameters = [
+        'name' => $product->getName(),
+        'slug' => $product->getSlug(),
+        'description' => $product->getDescription(),
+        'price' => $product->getPrice()
+        ];
+        $query->execute($parameters);
+        
+        return $this->db->lastInsertId();// manque le last insert id et le return
+        return $parameters;
+    }
+    public function editProduct(string $productSlug) : Product
+    {
+        $query = $this->db->prepare('UPDATE product SET name= :name, slug= :slug, description= :description, price= :price WHERE id= :id)');
+        $parameters = [
+        'name' => $product->getName(),
+        'slug' => $product->getSlug(),
+        'description' => $product->getDescription(),
+        'price' => $product->getPrice()
+        ];
+        $query->execute($parameters);
+        
+        return $parameters;// manque le return
+    }
+    private function deleteProduct(string $productSlug) : void
+    {
+        $query = $this->db->prepare('DELETE FROM products WHERE slug = :slug');
+        $parameters = [
+            'product_slug' => $productSlug
+            ];
+        $query->execute($parameters);    
+    }
+    
     
     public function getProductsByCategorySlug(string $categorySlug) : array  
     {  

@@ -13,7 +13,8 @@ require "managers/UserManager.php";
   
 // controllers  
 require "controllers/AbstractController.php";  
-require "controllers/ShopController.php";  
+require "controllers/ProductController.php";
+require "controllers/CategoryController.php";
 require "controllers/AuthController.php";
   
 // services  

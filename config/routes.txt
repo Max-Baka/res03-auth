@@ -53,3 +53,35 @@ La route qui affiche le formulaire de connexion
 La route qui vérifie la connexion (l'action du formulaire de connexion)  
   
 /check-connexion
+
+_______________________________________________________________________________
+
+La route pour creer un produit
+/creer-produit
+
+la route qui creer un produit
+/check-creer-produit
+
+le route pour creer une categorie
+/creer-categorie
+
+la route qui creer une categorie
+/check-creer-categorie
+
+la route pour modifier un produit
+/modifier-produit/:slug-produit
+
+la route qui modifie un produit
+/check-modifier-produit/:slug-produit
+
+la route pour modifier une categorie
+/modifier-categorie/:slug-categorie
+
+le route qui modifie une categorie
+/check-modifier-categorie/:slug-categorie
+
+la route pour supprimer un produit
+/supprimer-produit/:slug-produit
+
+la route pour supprimer une categorie
+/supprimer-categorie/:slug-categorie

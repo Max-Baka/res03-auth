@@ -1,12 +1,14 @@
 <?php  
  
 class Router {  
-    private ShopController $ctrl;
+    private ProductController $pc;
+    private CategoryController $cc;
     private AuthController $auth; 
   
     public function __construct()  
         {  
-            $this->ctrl = new ShopController();
+            $this->pc = new ProductController();
+            $this->cc = new CategoryController();
             $this->auth = new AuthController(); 
         }
     private function splitRouteAndParameters(string $route) : array  
@@ -25,16 +27,64 @@ class Router {
                 {  
                     // mettre les bonnes valeurs dans le tableau  
                     $routeAndParams["route"] = "categories";  
-                    $routeAndParams["categorySlug"] = $tab[1];  
-                }  
+                    $routeAndParams["categorySlug"] = $tab[1];
+                    
+                }
+                else if($tab[0] === "creer-categorie")
+                {
+                    $routeAndParams["route"] = $tab[0];
+                }
+                else if($tab[0] === "check-creer-categorie")
+                {
+                    $routeAndParams["route"] = $tab[0];
+                }
+                else if($tab[0] === "modifier-categorie")
+                {
+                    $routeAndParams["route"] = $tab[0];
+                    $routeAndParams["categorySlug"] = $tab[1];
+                }
+                else if($tab[0] === "check-modifier-categorie")
+                {
+                    $routeAndParams["route"] = $tab[0];
+                    $routeAndParams["categorySlug"] = $tab[1];
+                }
+                else if($tab[0] ===  "supprimer-categorie")
+                {
+                    $routeAndParams["route"] = $tab[0];
+                    $routeAndParams["categorySlug"] = $tab[1];
+                }
                 else if($tab[0] === "produits") // écrire une condition pour le cas où la route commence par "produits"  
                 {  
                     // mettre les bonnes valeurs dans le tableau  
                     $routeAndParams["route"] = "produits";
                     if (isset($tab[1])){
                         
-                    $routeAndParams["productSlug"] = $tab[1]; 
+                    $routeAndParams["productSlug"] = $tab[1];
+                    
                     }
+                }
+                else if($tab[0] === "creer-produit")
+                {
+                    $routeAndParams["route"] = $tab[0];
+                }
+                else if($tab[0] === "check-creer-produit")
+                {
+                    $routeAndParams["route"] = $tab[0];
+                }
+                else if($tab[0] === "modifier-produit")
+                {
+                    $routeAndParams["route"] = $tab[0];
+                    $routeAndParams["productSlug"] = $tab[1];
+                }
+                else if($tab[0] === "check-modifier-produit")
+                {
+                    $routeAndParams["route"] = $tab[0];
+                    $routeAndParams["productSlug"] = $tab[1];
+                }
+                else if($tab[0] ===  "supprimer-produit")
+                {
+                    $routeAndParams["route"] = $tab[0];
+                    $routeAndParams["productSlug"] = $tab[1];
                 }
                 else if($tab[0] === "creer-un-compte") // écrire une condition pour le cas où la route commence par "creer-un-compte"  
                 {  
@@ -73,22 +123,64 @@ class Router {
         if($routeTab['route'] === "") // condition(s) pour envoyer vers la home  
         {  
             // appeler la méthode du controlleur pour afficher la home
-            $this->ctrl->categoriesList();
-        }  
+            $this->cc->categoriesList();
+        }
+        else if($routeTab['route'] === "creer-categorie")
+        {
+            $post = $_POST;
+            $this->cc->createCategorie($post);
+        }
+        else if($routeTab['route'] === "check-creer-categorie")
+        {
+            $post = $_POST;
+            $this->cc->checkCreateCategory($post);
+        }
+        else if($routeTab['route'] === "modifier-categorie" && $routeTab ['categorySlug'] === null))
+        {
+            $this->cc->editCategory();
+        }
+        else if($routeTab['route'] === "check-modifier-categorie" && $routeTab ['categorySlug'] === null))
+        {
+            $this->cc->checkEditCategory();
+        }
+        else if($routeTab['route'] === "supprimer-categorie" && $routeTab['categorySlug'] === null)
+        {
+            $this->cc->deleteCategory();
+        }
         else if($routeTab['route'] === "produits" && $routeTab['productSlug'] === null) // condition(s) pour envoyer vers la liste des produits  
         {  
             // appeler la méthode du controlleur pour afficher les produits
-            $this->ctrl->productsList();
+            $this->pc->productsList();
         }  
+        else if($routeTab['route'] === "creer-produit")
+        {
+            $this->pc->createProduct();
+        }
+        else if($routeTab['route'] === "check-creer-produit")
+        {
+            $this->pc->checkCreateProduct();
+        }
+        else if($routeTab['route'] === "modifier-produit" && $routeTab['productSlug'] === null))
+        {
+            $this->pc->editProduct();
+        }
+        else if($routeTab['route'] === "check-modifier-produit" && $routeTab['productSlug'] === null))
+        {
+            $this->pc->checkEditProduct();
+        }
+        else if($routeTab['route'] === "supprimer-produit" && $routeTab['productSlug'] === null)
+        {
+            $this->pc->deleteProduct();
+        }
         else if($routeTab['route'] === "categories" && $routeTab['categorySlug'] !== null) // condition(s) pour envoyer vers la liste des produits d'une catégorie  
         {  
             // appeler la méthode du controlleur pour afficher les produits d'une catégorie
-            $this->ctrl->productsInCategory($routeTab['categorySlug']);  
+            $this->cc->productsInCategory($routeTab['categorySlug']);  
         }  
         else if($routeTab['route'] === "produits" && $routeTab['productSlug'] !== null) // condition(s) pour envoyer vers le détail d'un produit  
         {  
             // appeler la méthode du controlleur pour afficher le détail d'un produit
-            $this->ctrl->productDetails($routeTab['productSlug']);
+            $this->pc->productDetails($routeTab['productSlug']);
         }
         else if($routeTab["route"] === "creer-un-compte") // condition pour afficher la page du formulaire d'inscription  
         {  
