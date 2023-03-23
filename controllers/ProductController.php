@@ -1,6 +1,6 @@
 <?php
 
-class ProductManager extends AbstractController{
+class ProductController extends AbstractController{
     
     
     private ProductManager $pm;
@@ -27,5 +27,38 @@ class ProductManager extends AbstractController{
             "product" => $product, 
             "categories" => $categories
         ]);  
+    }
+    public function createProduct(array $post) : void
+    {   
+        $this->render("create-product", [
+            ]);
+    }
+    
+    public function checkCreateProduct(array $post) : void
+    {   
+        
+        $tab = [];
+        $product = new Product($post["name"],$this->slugify($post["name"]),$post["description"], intval($post["price"]));
+        $newprod = $this->pm->createProduct($product);
+    }
+    
+    public function editProduct(string $productSlug) : void
+    {
+        
+        $tab = [];
+        $editproduct =  new Product($post["name"],$post["slug"],$post["description"], $post["price"]);
+        $editProduct = $this->pm->getProductyBySlug($productSlug);
+        $product = $this->pm->editProduct($editProduct);
+        $tab[] = $editProduct->editProduct($editProduct);
+        $this->render("product", [
+            "edit-product"
+            ]);
+        
+    }
+    
+    public function deleteProduct(string $productSlug) : void
+    {
+         $product = $this->pm->deleteProduct($productSlug);
+       
     }
 }

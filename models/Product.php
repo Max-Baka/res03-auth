@@ -7,7 +7,7 @@ class Product {
   private string $description;
   private int $price;
 
-    public function __construct(string $name, string $slug, string $description, string $price)
+    public function __construct(string $name, string $slug, string $description, int $price)
     {
        $this->id = null;
         $this->name = $name;
@@ -61,7 +61,7 @@ class Product {
         return $this->price;
     }
 
-    public function setPrice(int $price) : void
+    public function setPrice(?int $price) : int
     {
         $this->price =$price;
     }

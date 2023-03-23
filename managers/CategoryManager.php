@@ -19,16 +19,17 @@ class CategoryManager extends AbstractManager {
        }
         return $list;  
     }  
-        public function createCategory(string $categortySlug) : Category
+        public function createCategory(Category $category) : Category
     {
-        $query = $this->db->prepare('INSERT INTO category VALUES (:name, :slug)');
+        $query = $this->db->prepare('INSERT INTO categories VALUES (null, :name, :slug, :description)');
         $parameters = [
         'name' => $category->getName(),
         'slug' => $category->getSlug(),
+        'description' => $category->getDescription(),
         ];
         $query->execute($parameters);
-        
-        return $this->db->lastInsertId();
+        $category->setId($this->db->lastInsertId());
+        return $category;
       
     }
     public function editCategory(string $categorySlug) : Category
@@ -40,7 +41,7 @@ class CategoryManager extends AbstractManager {
         ];
         $query->execute($parameters);
         
-        return $parameters;// manque le return
+        return $parameters;
     }
     private function deleteCategory(string $categorySlug) : void
     {

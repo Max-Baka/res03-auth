@@ -32,9 +32,9 @@ class ProductManager extends AbstractManager {
     
         return $product;  
     }
-    public function createProduct(string $productSlug) : Product
+    public function createProduct(Product $product) : Product
     {
-        $query = $this->db->prepare('INSERT INTO product VALUES (:name, :slug, :description, :price)');
+        $query = $this->db->prepare('INSERT INTO products VALUES (null, :name, :slug, :description, :price)');
         $parameters = [
         'name' => $product->getName(),
         'slug' => $product->getSlug(),
@@ -42,9 +42,9 @@ class ProductManager extends AbstractManager {
         'price' => $product->getPrice()
         ];
         $query->execute($parameters);
-        
-        return $this->db->lastInsertId();// manque le last insert id et le return
-        return $parameters;
+        $product->setId($this->db->lastInsertId());
+        return $product;
+
     }
     public function editProduct(string $productSlug) : Product
     {

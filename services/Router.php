@@ -56,7 +56,7 @@ class Router {
                 else if($tab[0] === "produits") // écrire une condition pour le cas où la route commence par "produits"  
                 {  
                     // mettre les bonnes valeurs dans le tableau  
-                    $routeAndParams["route"] = "produits";
+                    $routeAndParams["route"] = "products";
                     if (isset($tab[1])){
                         
                     $routeAndParams["productSlug"] = $tab[1];
@@ -128,18 +128,18 @@ class Router {
         else if($routeTab['route'] === "creer-categorie")
         {
             $post = $_POST;
-            $this->cc->createCategorie($post);
+            $this->cc->createCategory($post);
         }
         else if($routeTab['route'] === "check-creer-categorie")
         {
             $post = $_POST;
             $this->cc->checkCreateCategory($post);
         }
-        else if($routeTab['route'] === "modifier-categorie" && $routeTab ['categorySlug'] === null))
+        else if($routeTab['route'] === "modifier-categorie" && $routeTab ['categorySlug'] === null)
         {
             $this->cc->editCategory();
         }
-        else if($routeTab['route'] === "check-modifier-categorie" && $routeTab ['categorySlug'] === null))
+        else if($routeTab['route'] === "check-modifier-categorie" && $routeTab ['categorySlug'] === null)
         {
             $this->cc->checkEditCategory();
         }
@@ -154,17 +154,19 @@ class Router {
         }  
         else if($routeTab['route'] === "creer-produit")
         {
-            $this->pc->createProduct();
+            $post = $_POST;
+            $this->pc->createProduct($post);
         }
         else if($routeTab['route'] === "check-creer-produit")
         {
-            $this->pc->checkCreateProduct();
+            $post = $_POST;
+            $this->pc->checkCreateProduct($post);
         }
-        else if($routeTab['route'] === "modifier-produit" && $routeTab['productSlug'] === null))
+        else if($routeTab['route'] === "modifier-produit" && $routeTab['productSlug'] === null)
         {
             $this->pc->editProduct();
         }
-        else if($routeTab['route'] === "check-modifier-produit" && $routeTab['productSlug'] === null))
+        else if($routeTab['route'] === "check-modifier-produit" && $routeTab['productSlug'] === null)
         {
             $this->pc->checkEditProduct();
         }
@@ -198,6 +200,6 @@ class Router {
         {  
             $this->auth->checkLogin(); // appeler la méthode du controlleur pour vérifier la connexion et renvoyer vers l'accueil  
         }
-            }
-        }
-        
+            
+    }
+}

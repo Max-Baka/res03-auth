@@ -27,21 +27,21 @@ class CategoryController extends AbstractController {
         ]);  
     }
     
-    public function createCategory(array $post) : category
+    public function createCategory(array $post) : void
     {   
-        $this->render("category", [
+        $this->render("create-category", [
             ]);
     }
     
-    public function checkCreateCategory(array $post) : category
+    public function checkCreateCategory(array $post) : void
     {   
         
         $tab = [];
-        $category = new Category($post["name"],$post["slug"],$post["description"]);
+        $category = new Category($post["name"],$this->slugify($post["name"]),$post["description"]);
         $newcateg = $this->cm->createCategory($category);
     }
     
-    public function editCategory(string $categorySlug) : category
+    public function editCategory(string $categorySlug) : void
     {
         
         $tab = [];
@@ -55,7 +55,7 @@ class CategoryController extends AbstractController {
         
     }
     
-    public function deleteCategory(string $categorySlug) : category
+    public function deleteCategory(string $categorySlug) : void
     {
          $category = $this->cm->deleteCategory($categorySlug);
        

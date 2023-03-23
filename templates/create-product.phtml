@@ -1,17 +1,19 @@
 <main>
       <section>
       <header>
-          <h2>Ajouter une catégorie</h1>
+          <h2>Ajouter un Produit</h1>
       </header>
        
             
-    <form action="/res03-auth/check-creer-categorie" method="post">
-      <label for="name">Nom de la catégorie :</label>
+    <form action="/res03-auth/check-creer-produit" method="post">
+      <label for="name">Nom du produit :</label>
             <input type="text" name="name" id="name" required>
       <label for="description">Description :</label>
             <textarea name="description" id="description"></textarea>
+      <label for="price">Prix</label>
+            <input type="text" name="price" id="price" required>
       <footer>
-            <input type="submit" value="Ajouter la catégorie">
+            <input type="submit" value="Ajouter le produit">
       </footer>
     </form>
     </section>
