@@ -135,17 +135,18 @@ class Router {
             $post = $_POST;
             $this->cc->checkCreateCategory($post);
         }
-        else if($routeTab['route'] === "modifier-categorie" && $routeTab ['categorySlug'] === null)
+        else if($routeTab['route'] === "modifier-categorie" && $routeTab['categorySlug'] !== null)
         {
-            $this->cc->editCategory();
+            $this->cc->editCategory($routeTab ['categorySlug']);
         }
-        else if($routeTab['route'] === "check-modifier-categorie" && $routeTab ['categorySlug'] === null)
+        else if($routeTab['route'] === "check-modifier-categorie" && $routeTab['categorySlug'] !== null)
         {
-            $this->cc->checkEditCategory();
+            $post = $_POST;
+            $this->cc->checkEditCategory($post, $routeTab['categorySlug']);
         }
-        else if($routeTab['route'] === "supprimer-categorie" && $routeTab['categorySlug'] === null)
+        else if($routeTab['route'] === "supprimer-categorie"&& $routeTab['categorySlug'] !== null)
         {
-            $this->cc->deleteCategory();
+            $this->cc->deleteCategory($routeTab['categorySlug']);
         }
         else if($routeTab['route'] === "produits" && $routeTab['productSlug'] === null) // condition(s) pour envoyer vers la liste des produits  
         {  
@@ -162,17 +163,18 @@ class Router {
             $post = $_POST;
             $this->pc->checkCreateProduct($post);
         }
-        else if($routeTab['route'] === "modifier-produit" && $routeTab['productSlug'] === null)
+        else if($routeTab['route'] === "modifier-produit" && $routeTab['productSlug'] !== null)
         {
-            $this->pc->editProduct();
+            $this->pc->editProduct($routeTab['productSlug']);
         }
-        else if($routeTab['route'] === "check-modifier-produit" && $routeTab['productSlug'] === null)
+        else if($routeTab['route'] === "check-modifier-produit" && $routeTab['productSlug'] !== null)
         {
-            $this->pc->checkEditProduct();
+            $post = $_POST;
+            $this->pc->checkEditProduct($post, $routeTab['productSlug']);
         }
-        else if($routeTab['route'] === "supprimer-produit" && $routeTab['productSlug'] === null)
+        else if($routeTab['route'] === "supprimer-produit" && $routeTab['productSlug'] !== null)
         {
-            $this->pc->deleteProduct();
+            $this->pc->deleteProduct($routeTab['productSlug']);
         }
         else if($routeTab['route'] === "categories" && $routeTab['categorySlug'] !== null) // condition(s) pour envoyer vers la liste des produits d'une catégorie  
         {  

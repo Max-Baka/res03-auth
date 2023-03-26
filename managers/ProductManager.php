@@ -18,18 +18,15 @@ class ProductManager extends AbstractManager {
     
     public function getProductBySlug(string $productSlug) : Product  
     {  
-        $query = $this->db->prepare('SELECT * FROM products WHERE slug = :product_slug');
+        $query = $this->db->prepare('SELECT * FROM products WHERE slug=:product_slug');
 
         $parameters = [
             'product_slug' => $productSlug
         ];
-
         $query->execute($parameters);
-
         $productParams = $query->fetch(PDO::FETCH_ASSOC);
-
-        $product = new Product($productParams['name'], $productParams['slug'], $productParams['description'], $productParams['price']);  
-    
+        $product = new Product($productParams["name"], $productParams["slug"], $productParams["description"], $productParams["price"]);
+        $product->setId($productParams["id"]);
         return $product;  
     }
     public function createProduct(Product $product) : Product
@@ -46,24 +43,33 @@ class ProductManager extends AbstractManager {
         return $product;
 
     }
-    public function editProduct(string $productSlug) : Product
+    public function editProduct(Product $product) : Product
     {
-        $query = $this->db->prepare('UPDATE product SET name= :name, slug= :slug, description= :description, price= :price WHERE id= :id)');
+        $query = $this->db->prepare('UPDATE products SET name= :name, slug= :slug, description= :description, price= :price WHERE id= :id');
         $parameters = [
         'name' => $product->getName(),
         'slug' => $product->getSlug(),
         'description' => $product->getDescription(),
-        'price' => $product->getPrice()
+        'price' => $product->getPrice(),
+        'id' => $product->getId()
         ];
         $query->execute($parameters);
         
-        return $parameters;// manque le return
+        return $product;// manque le return
     }
-    private function deleteProduct(string $productSlug) : void
+    public function deleteProduct(string $productSlug) : void
     {
-        $query = $this->db->prepare('DELETE FROM products WHERE slug = :slug');
+        $product = $this->getProductBySlug($productSlug);
+        
+        $query = $this->db->prepare('DELETE  FROM products_categories WHERE products_id = :id');
         $parameters = [
-            'product_slug' => $productSlug
+            'id' => $product->getId()
+            ];
+        $query->execute($parameters);
+        
+        $query = $this->db->prepare('DELETE  FROM products WHERE slug = :slug');
+        $parameters = [
+            'slug' => $productSlug
             ];
         $query->execute($parameters);    
     }

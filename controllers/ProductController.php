@@ -44,15 +44,19 @@ class ProductController extends AbstractController{
     
     public function editProduct(string $productSlug) : void
     {
-        
-        $tab = [];
-        $editproduct =  new Product($post["name"],$post["slug"],$post["description"], $post["price"]);
-        $editProduct = $this->pm->getProductyBySlug($productSlug);
-        $product = $this->pm->editProduct($editProduct);
-        $tab[] = $editProduct->editProduct($editProduct);
-        $this->render("product", [
-            "edit-product"
+        $editProduct = $this->pm->getProductBySlug($productSlug);
+        $this->render("edit-product", [
+            "edit-product" =>$editProduct
             ]);
+        
+    }
+    
+    public function checkEditProduct(array $post, string $productSlug) : void
+    {
+        $editProduct =  new Product($post["name"],$this->slugify($post["name"]),$post["description"], $post["price"]);
+        $editProduct->setId($post["id"]);
+        $product = $this->pm->editProduct($editProduct);
+       
         
     }
     

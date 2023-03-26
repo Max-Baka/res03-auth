@@ -43,16 +43,20 @@ class CategoryController extends AbstractController {
     
     public function editCategory(string $categorySlug) : void
     {
-        
-        $tab = [];
-        $editCategory =  new Category($post["name"],$post["slug"],$post["description"]);
         $editCategory = $this->cm->getCategoryBySlug($categorySlug);
-        $category = $this->cm->editCategory($editCategory);
-        $tab[] = $editCategory->editCategory($editCategory);
-        $this->render("category", [
-            "edit-category"
+        $this->render("edit-category", [
+            "categorie" =>$editCategory
             ]);
         
+    }
+    
+    public function checkEditCategory(array $post, string $categorySlug) : void
+    {
+        
+        
+        $editCategory =  new Category($post["name"],$this->slugify($post["name"]),$post["description"]);
+        $editCategory->setId($post["id"]);
+        $category = $this->cm->editCategory($editCategory);
     }
     
     public function deleteCategory(string $categorySlug) : void
